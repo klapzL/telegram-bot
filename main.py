@@ -5,12 +5,9 @@ from module import url_responser
 
 load_dotenv()
 token = os.environ.get('TELEGRAM_TOKEN')
+weather_token = os.environ.get('OPENWEATHER_API_KEY')
 
 bot = telebot.TeleBot(token)
-
-city = input('')
-key = os.environ.get('OPENWEATHER_API_KEY')
-url = url_responser('https://api.openweathermap.org/data/2.5/weather?q={city}&appid={key}&units=metric&lang=ru')
 
 @bot.message_handler(commands=['start'])
 def start(message):
@@ -18,7 +15,7 @@ def start(message):
 
 @bot.message_handler(content_types=['text'])
 def show_weather(message):
-    city = message.text
-    bot.send_message(message.chat.id, f'Вы написали: {message.text}')
-    return url
-# bot.polling()
+    weather = url_responser(f'https://api.openweathermap.org/data/2.5/weather?q={message.text}&appid={weather_token}&units=metric&lang=ru')
+    bot.send_message(message.chat.id, weather)
+
+bot.polling()
