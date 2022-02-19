@@ -1,12 +1,12 @@
 import requests as rq
 import json
+import os
 
 def url_responser(url):
-    def inner(data_dict):
-        nonlocal url
-        response = rq.get(url.format_map(data_dict))
-        dict_response = url(data_dict)
-        weather = dict_response.get('weather')[0]
-        return weather['description'].capitalize()
+    response = rq.get(url)
+    dict_response = json.loads(response.text)
+    weather = dict_response.get('weather')[0]
+    return weather['description'].capitalize()
 
-    return inner
+key = os.environ.get('OPENWEATHER_API_KEY')
+print(url_responser('https://api.openweathermap.org/data/2.5/weather?q=London&appid={key}&units=metric&lang=ru'))
