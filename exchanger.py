@@ -22,4 +22,5 @@ def show_currency(message):
     except NameError:
         bot.send_message(message.chat.id, 'Название валюты введено неправильно. Введите корректное название валюты (например: USD):')
 
+
 bot.polling()
